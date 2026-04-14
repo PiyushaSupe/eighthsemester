@@ -1,0 +1,646 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sixth Semester — Assignments</title>
+  <style>
+    :root{
+      --bg:#fbfcfe;
+      --card:#ffffff;
+      --muted:#6b7280;
+      --accent-1: linear-gradient(135deg,#7c3aed,#2563eb);
+      --accent-2: linear-gradient(135deg,#ef4444,#f97316);
+      --accent-3: linear-gradient(135deg,#0ea5a4,#06b6d4);
+      --accent-4: linear-gradient(135deg,#10b981,#06b6d4);
+      --accent-5: linear-gradient(135deg,#f59e0b,#ef4444);
+      --glass: rgba(255,255,255,0.6);
+      --radius:14px;
+      --shadow: 0 8px 30px rgba(16,24,40,0.08);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    html,body{
+      height:100%;
+      margin:0;
+      background: radial-gradient(circle at 10% 10%, #f7fbff 0%, var(--bg) 35%);
+      color:#0f172a;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    header{
+        background-color: #910767;
+        color: white;
+        text-align: center;
+        padding: 30px 10px;
+        font-size: 2em;
+        font-weight: 600;
+        letter-spacing: 1px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      
+    }
+    header h1{
+      margin:0;
+      font-size: clamp(20px, 3.6vw, 30px);
+      letter-spacing:0.2px;
+    }
+    header p{ margin:8px 0 0; color:white; font-size:0.95rem; }
+
+    .wrap{
+      width:95%;
+      max-width:1180px;
+      margin: 0 auto 60px;
+    }
+
+    .controls{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+      margin: 18px 0;
+      flex-wrap:wrap;
+    }
+    .search {
+      display:flex;
+      align-items:center;
+      gap:10px;
+      background:var(--card);
+      padding:10px 14px;
+      border-radius:12px;
+      box-shadow:var(--shadow);
+      min-width:260px;
+      flex:1 1 320px;
+    }
+    .search input{
+      border:0;
+      outline:0;
+      font-size:0.97rem;
+      background:transparent;
+      width:100%;
+    }
+    .buttons{
+      display:flex;
+      gap:10px;
+    }
+    button{
+      border:0;
+      padding:10px 14px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:600;
+      background:linear-gradient(180deg,#fff,#f8fafc);
+      box-shadow:0 6px 18px rgba(2,6,23,0.06);
+      color:#0f172a;
+    }
+    button.ghost{
+      background:transparent;
+      border:1px solid #e6e9ee;
+    }
+
+    /* Grid of subject cards */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat( auto-fit, minmax(300px, 1fr) );
+      gap:18px;
+    }
+
+    .card {
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      transition: transform .22s ease, box-shadow .22s ease;
+      display:flex;
+      flex-direction:column;
+    }
+    .card:hover{ transform: translateY(-6px); box-shadow: 0 18px 42px rgba(16,24,40,0.12); }
+
+    .card .head{
+      padding:18px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .badge{
+      min-width:56px;
+      height:56px;
+      border-radius:12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+      font-weight:700;
+      font-size:0.95rem;
+      box-shadow: 0 6px 18px rgba(2,6,23,0.08);
+    }
+    .meta{
+      flex:1;
+    }
+    .meta h3{ margin:0; font-size:1.05rem; }
+    .meta p{ margin:6px 0 0; color:var(--muted); font-size:0.9rem; }
+
+    details{
+      border-top:1px dashed #eef2f7;
+      padding:0 18px 18px;
+    }
+    summary{
+      list-style:none;
+      outline:none;
+      padding:12px 0;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      font-weight:600;
+    }
+    summary::-webkit-details-marker { display:none; } /* hide default marker */
+
+    ul.files{
+      margin:0;
+      padding:0;
+      list-style:none;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    li.file{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:8px 10px;
+      border-radius:10px;
+      transition: background .12s;
+    }
+    li.file a{
+      color:#0b4dbd;
+      text-decoration:none;
+      font-weight:600;
+    }
+    li.file .tag{
+      min-width:58px;
+      text-align:center;
+      font-size:0.78rem;
+      padding:6px 8px;
+      border-radius:8px;
+      color:#fff;
+      font-weight:700;
+    }
+    li.file:hover{ background:#fbfdff; }
+
+    /* tag colors */
+    .pdf{ background: #ef4444; }
+    .doc{ background: #2563eb; }
+
+    /* Other documents card style */
+    .other { grid-column: 1/-1; }
+
+    footer{
+      margin-top:36px;
+      color:var(--muted);
+      font-size:0.9rem;
+      text-align:center;
+    }
+
+    @media (max-width:720px){
+      .controls{ gap:10px; }
+      .badge{ min-width:46px; height:46px; font-size:0.85rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Sixth Semester - Assignments</h1>
+    <p>DSBDA · WT · AI · CC - all files listed below (click to open)</p>
+  </header>
+
+  <main class="wrap">
+    <div class="controls">
+      <div class="search" aria-hidden="false">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 21l-4.35-4.35" stroke="#94a3b8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="11" r="6" stroke="#94a3b8" stroke-width="1.8"/></svg>
+        <input id="filter" placeholder="Search assignments by name" />
+      </div>
+
+      <div class="buttons">
+        <button id="expandAll">Expand All</button>
+        <button id="collapseAll" class="ghost">Collapse All</button>
+      </div>
+    </div>
+
+    <section class="grid">
+
+        <!-- DSBDA -->
+         <article class="card">
+        <div class="head">
+          <div class="badge" style="background:var(--accent-1)">DSBDA</div>
+          <div class="meta">
+            <h3>Data Science and Big Data Analytics</h3>
+            <p>Case studies, labs and theory assignments</p>
+          </div>
+        </div>
+
+        <details>
+          <summary>Outputs</summary>
+          <ul class="files">
+            <li class="file"><span class="tag pdf">PDF</span> <a href="DSBDA/OUTPUT_DSBDA/dsbda output 1.pdf" target="_blank" rel="noopener noreferrer">DSBDA Output 1</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="DSBDA/OUTPUT_DSBDA/dsbda output 2.pdf" target="_blank" rel="noopener noreferrer">DSBDA Output 2</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="DSBDA/OUTPUT_DSBDA/dsbda output 3.pdf" target="_blank" rel="noopener noreferrer">DSBDA Output 3</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="DSBDA/OUTPUT_DSBDA/dsbda output 4.pdf" target="_blank" rel="noopener noreferrer">DSBDA Output 4</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="DSBDA/OUTPUT_DSBDA/dsbda output 5.pdf" target="_blank" rel="noopener noreferrer">DSBDA Output 5</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="DSBDA/OUTPUT_DSBDA/dsbda output 6.pdf" target="_blank" rel="noopener noreferrer">DSBDA Output 6</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="DSBDA/OUTPUT_DSBDA/dsbda output 7.pdf" target="_blank" rel="noopener noreferrer">DSBDA Output 7</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="DSBDA/OUTPUT_DSBDA/dsbda output 8.pdf" target="_blank" rel="noopener noreferrer">DSBDA Output 8</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="DSBDA/OUTPUT_DSBDA/dsbda output 9.pdf" target="_blank" rel="noopener noreferrer">DSBDA Output 9</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="DSBDA/OUTPUT_DSBDA/dsbda output 10.pdf" target="_blank" rel="noopener noreferrer">DSBDA Output 10</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="DSBDA/OUTPUT_DSBDA/dsbda printouts for 11-12-13.pdf" target="_blank" rel="noopener noreferrer">DSBDA Output 11,12,13</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="DSBDA/OUTPUT_DSBDA/case study hadoop.pdf" target="_blank" rel="noopener noreferrer">DSBDA Case study Hadoop</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="DSBDA/OUTPUT_DSBDA/Case study (face, palm, person qualities).pdf" target="_blank" rel="noopener noreferrer">DSBDA Case study Predicting human emotions</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="DSBDA/OUTPUT_DSBDA/gina case study piyusha.pdf" target="_blank" rel="noopener noreferrer">DSBDA Case study GINA</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="DSBDA/OUTPUT_DSBDA/Piyusha_Supe_DSBDA_Miniproject.pdf" target="_blank" rel="noopener noreferrer">DSBDA Miniproject report</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="DSBDA/OUTPUT_DSBDA/piyusha_supe_miniproject-tweets_output.pdf" target="_blank" rel="noopener noreferrer">DSBDA Miniproject code</a></li>
+            
+          </ul>
+        </details>
+        <details>
+          <summary>Write-ups</summary>
+          <ul class="files">
+            <li class="file"><span class="tag pdf">PDF</span> <a href="DSBDA/WRITEUP_DSBDA/dsbda 1.pdf" target="_blank" rel="noopener noreferrer">DSBDA writeup 1</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="DSBDA/WRITEUP_DSBDA/dsbda 2.pdf" target="_blank" rel="noopener noreferrer">DSBDA writeup 2</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="DSBDA/WRITEUP_DSBDA/dsbda 3-.pdf" target="_blank" rel="noopener noreferrer">DSBDA writeup 3</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="DSBDA/WRITEUP_DSBDA/dsbda 4.pdf" target="_blank" rel="noopener noreferrer">DSBDA writeup 4</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="DSBDA/WRITEUP_DSBDA/dsbda 5.pdf" target="_blank" rel="noopener noreferrer">DSBDA writeup 5</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="DSBDA/WRITEUP_DSBDA/dsbda 6.pdf" target="_blank" rel="noopener noreferrer">DSBDA writeup 6</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="DSBDA/WRITEUP_DSBDA/dsbda 7.pdf" target="_blank" rel="noopener noreferrer">DSBDA writeup 7</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="DSBDA/WRITEUP_DSBDA/dsbda 8.pdf" target="_blank" rel="noopener noreferrer">DSBDA writeup 8</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="DSBDA/WRITEUP_DSBDA/dsbda 9.pdf" target="_blank" rel="noopener noreferrer">DSBDA writeup 9</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="DSBDA/WRITEUP_DSBDA/dsbda 10.pdf" target="_blank" rel="noopener noreferrer">DSBDA writeup 10</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="DSBDA/WRITEUP_DSBDA/dsbda 11.pdf" target="_blank" rel="noopener noreferrer">DSBDA writeup 11</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="DSBDA/WRITEUP_DSBDA/dsbda 12.pdf" target="_blank" rel="noopener noreferrer">DSBDA writeup 12</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="DSBDA/WRITEUP_DSBDA/dsbda 13.pdf" target="_blank" rel="noopener noreferrer">DSBDA writeup 13</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="DSBDA/WRITEUP_DSBDA/dsbda 14.pdf" target="_blank" rel="noopener noreferrer">DSBDA writeup 14</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="DSBDA/WRITEUP_DSBDA/dsbda th assignment 1 piyusha.pdf" target="_blank" rel="noopener noreferrer">DSBDA Theory assignment 1</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="DSBDA/WRITEUP_DSBDA/DSBDA ASSIGNMENT 2 PIYUSHA.pdf" target="_blank" rel="noopener noreferrer">DSBDA Theory assignment 2</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="DSBDA/WRITEUP_DSBDA/dsbda case study.pdf" target="_blank" rel="noopener noreferrer">DSBDA Case Study</a></li>
+
+            
+        
+        </ul>
+        </details>
+        <details>
+          <summary>Datasets</summary>
+          <ul class="files">
+            <li class="file"><span class="tag pdf">ZIP</span> <a href="DSBDA/all datasets.zip" target="_blank" rel="noopener noreferrer">Datasets Zip file</a></li>
+   
+   
+        </ul>
+        </details>
+        <details>
+          <summary>Jupyter notebook files</summary>
+          <ul class="files">
+           <li class="file"><span class="tag pdf">ZIP</span> <a href="DSBDA/DSBDA ALL CODES PIYUSHA SUPE.zip" target="_blank" rel="noopener noreferrer">Jupyter ipynb files</a></li>
+          
+        
+          </ul>
+        </details>
+      </article>
+
+
+        <!-- WT -->
+         <article class="card">
+        <div class="head">
+          <div class="badge" style="background:var(--accent-2)">WT</div>
+          <div class="meta">
+            <h3>Web Technology</h3>
+            <p>Case studies, labs and theory assignments</p>
+          </div>
+        </div>
+
+        <details>
+          <summary>Write-up</summary>
+          <ul class="files">
+            <li class="file"><span class="tag pdf">PDF</span> <a href="WT/Piyusha-Supe-23CO315-WT-Entire-file-2025.pdf" target="_blank" rel="noopener noreferrer">Complete file WT</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="WT/WRITEUP_WT/PHP Presentation 3 April 2025 Piyusha Supe.pdf" target="_blank" rel="noopener noreferrer">Presentation Activity</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="WT/WRITEUP_WT/wt 2.pdf" target="_blank" rel="noopener noreferrer">WT Writeup 2</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="WT/WRITEUP_WT/wt 3.pdf" target="_blank" rel="noopener noreferrer">WT Writeup 3</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="WT/WRITEUP_WT/wt 4.pdf" target="_blank" rel="noopener noreferrer">WT Writeup 4</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="WT/WRITEUP_WT/wt 5.pdf" target="_blank" rel="noopener noreferrer">WT Writeup 5</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="WT/WRITEUP_WT/wt 6.pdf" target="_blank" rel="noopener noreferrer">WT Writeup 6</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="WT/WRITEUP_WT/wt 7.pdf" target="_blank" rel="noopener noreferrer">WT Writeup 7</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="WT/WRITEUP_WT/wt 8.pdf" target="_blank" rel="noopener noreferrer">WT Writeup 8</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="WT/WRITEUP_WT/wt 9.pdf" target="_blank" rel="noopener noreferrer">WT Writeup 9</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="WT/WRITEUP_WT/wt 10.pdf" target="_blank" rel="noopener noreferrer">WT Writeup 10</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="WT/WRITEUP_WT/WT theory assignment piyusha supe 23co315.pdf" target="_blank" rel="noopener noreferrer">WT Theory assignment</a></li>
+            
+          </ul>
+        </details>
+        <details>
+          <summary>Outputs</summary>
+          <ul class="files">
+            <li class="file"><span class="tag pdf">PDF</span> <a href="WT/OUTPUT_WT/CASE_STUDY_Piyusha_Supe_23CO315_WT.pdf" target="_blank" rel="noopener noreferrer">WT Case Study</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="WT/OUTPUT_WT/MINIPROJECT_WT_Piyusha_Supe_23CO315.pdf" target="_blank" rel="noopener noreferrer">WT Miniproject</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="WT/OUTPUT_WT/Practical_1_Piyusha_Supe_23CO315_WT.pdf" target="_blank" rel="noopener noreferrer">WT Practical 1</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="WT/OUTPUT_WT/Practical_2_Piyusha_Supe_23CO315_WT.pdf" target="_blank" rel="noopener noreferrer">WT Practical 2</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="WT/OUTPUT_WT/Practical_3_Piyusha_Supe_23CO315_WT.pdf" target="_blank" rel="noopener noreferrer">WT Practical 3</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="WT/OUTPUT_WT/Practical_4_Piyusha_Supe_23CO315_WT.pdf" target="_blank" rel="noopener noreferrer">WT Practical 4</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="WT/OUTPUT_WT/Practical_5_Piyusha_Supe_23CO315_WT.pdf" target="_blank" rel="noopener noreferrer">WT Practical 5</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="WT/OUTPUT_WT/Practical_6_Piyusha_Supe_23CO315_WT.pdf" target="_blank" rel="noopener noreferrer">WT Practical 6</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="WT/OUTPUT_WT/Practical_7_Piyusha_Supe_23CO315_WT.pdf" target="_blank" rel="noopener noreferrer">WT Practical 7</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="WT/OUTPUT_WT/Practical_8_Piyusha_Supe_23CO315_WT.pdf" target="_blank" rel="noopener noreferrer">WT Practical 8</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="WT/OUTPUT_WT/Practical_9_Piyusha_Supe_23CO315_WT.pdf" target="_blank" rel="noopener noreferrer">WT Practical 9</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="WT/OUTPUT_WT/Practical_10_Piyusha_Supe_23CO315_WT.pdf" target="_blank" rel="noopener noreferrer">WT Practical 10</a></li>
+            
+        
+        </ul>
+        </details>
+        
+        
+      </article>
+
+
+        <!-- AI -->
+         
+      <article class="card">
+        <div class="head">
+          <div class="badge" style="background:var(--accent-3)">AI</div>
+          <div class="meta">
+            <h3>Artificial Intelligence</h3>
+            <p>Lab manual and theory assignment</p>
+          </div>
+        </div>
+
+        <details>
+          <summary>Write-up</summary>
+          <ul class="files">
+            <li class="file"><span class="tag pdf">PDF</span> <a href="AI/WRITEUP-AI/AI writeup 1 to 3.pdf" target="_blank" rel="noopener noreferrer">AI Write-up 1-3</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="AI/WRITEUP-AI/AI activity piyusha Supe.pdf" target="_blank" rel="noopener noreferrer">AI Activity</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="AI/WRITEUP-AI/23CO315_AI assignment_piyusha_supe.pdf" target="_blank" rel="noopener noreferrer">AI assignment</a></li>
+            
+          </ul>
+        </details>
+        <details>
+          <summary>Outputs</summary>
+          <ul class="files">
+            <li class="file"><span class="tag pdf">ZIP</span> <a href="AI/AI_LP2_CODES_Piyusha_supe.zip" target="_blank" rel="noopener noreferrer">Codes ZIP file</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="AI/OUTPUT-AI/AI Lab manual piyusha Supe.pdf" target="_blank" rel="noopener noreferrer">AI Lab Manual</a></li>
+            
+        
+        </ul>
+        </details>
+        
+      </article>
+
+
+        <!-- CC -->
+         <article class="card">
+        <div class="head">
+          <div class="badge" style="background:var(--accent-4)">CC</div>
+          <div class="meta">
+            <h3>Cloud Computing</h3>
+            <p>Labs and theory assignments</p>
+          </div>
+        </div>
+
+        <details>
+          <summary>Write-up</summary>
+          <ul class="files">
+            <li class="file"><span class="tag pdf">PDF</span> <a href="CC/WRITEUP_CC/cc 1-.pdf" target="_blank" rel="noopener noreferrer">CC write up 1</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="CC/WRITEUP_CC/cc 2.pdf" target="_blank" rel="noopener noreferrer">CC write up 2</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="CC/WRITEUP_CC/cc 3.pdf" target="_blank" rel="noopener noreferrer">CC write up 3</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="CC/WRITEUP_CC/cc 4.pdf" target="_blank" rel="noopener noreferrer">CC write up 4</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="CC/WRITEUP_CC/cc 5.pdf" target="_blank" rel="noopener noreferrer">CC write up 5</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="CC/WRITEUP_CC/cc assignment piyusha.pdf" target="_blank" rel="noopener noreferrer">CC Theory assignment</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="CC/WRITEUP_CC/piyusha supe cc knowledge wall.pdf" target="_blank" rel="noopener noreferrer">CC Knowledge wall activity</a></li>
+            
+          </ul>
+        </details>
+        <details>
+          <summary>Outputs</summary>
+          <ul class="files">
+            <li class="file"><span class="tag pdf">PDF</span> <a href="CC/OUTPUT_CC/23CO315_cc group presentation efs.pdf" target="_blank" rel="noopener noreferrer">Group presentation EFS</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="CC/OUTPUT_CC/cc MINIPROJECT google app engine report.pdf" target="_blank" rel="noopener noreferrer">Google App Engine miniproject</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="CC/OUTPUT_CC/CC miniproject report_elastic_beanstalk.docx.pdf" target="_blank" rel="noopener noreferrer">Elastic Beanstalk miniproject</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="CC/OUTPUT_CC/CC_steps_elastic_beanstalk.pdf" target="_blank" rel="noopener noreferrer">Steps of Elastic beanstalk</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="CC/OUTPUT_CC/Practical 1 Piyusha Supe Cloud.pdf" target="_blank" rel="noopener noreferrer">CC Practical 1</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="CC/OUTPUT_CC/Practical 2 Piyusha Supe Cloud.pdf" target="_blank" rel="noopener noreferrer">CC Practical 2</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="CC/OUTPUT_CC/Practical 3 Piyusha Supe Cloud.pdf" target="_blank" rel="noopener noreferrer">CC Practical 3</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="CC/OUTPUT_CC/Practical 4 Piyusha Supe Cloud.pdf" target="_blank" rel="noopener noreferrer">CC Practical 4</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="CC/OUTPUT_CC/Practical 5 HDFS Simulation.pdf" target="_blank" rel="noopener noreferrer">CC Practical 5</a></li>
+            
+        
+        </ul>
+        </details>
+        
+      </article>
+
+
+
+
+
+
+
+      <!-- Other necessary documents: full width -->
+      <article class="card other">
+        <div class="head">
+          <div class="badge" style="background:linear-gradient(135deg,#64748b,#0ea5a4)">DOCS</div>
+          <div class="meta">
+            <h3>Other necessary documents</h3>
+            <p>Indexes and certificate</p>
+          </div>
+        </div>
+
+        <details open>
+          <summary>Open documents</summary>
+          <ul class="files">
+            <li class="file"><span class="tag pdf">PDF</span> <a href="Indexes of all files.pdf" target="_blank" rel="noopener noreferrer">Indexes of files</a></li>
+            
+          </ul>
+        </details>
+      </article>
+
+
+    </section>
+
+    <footer>© 2024 Sixth Semester • Designed by Piyusha Supe</footer>
+  </main>
+
+  <script>
+    // Expand/collapse controls
+    const expandAll = document.getElementById('expandAll');
+    const collapseAll = document.getElementById('collapseAll');
+    const detailsEls = Array.from(document.querySelectorAll('details'));
+
+    expandAll.addEventListener('click', () => detailsEls.forEach(d => d.open = true));
+    collapseAll.addEventListener('click', () => detailsEls.forEach(d => d.open = false));
+
+    // Filter/search
+    const filterInput = document.getElementById('filter');
+    filterInput.addEventListener('input', () => {
+      const q = filterInput.value.trim().toLowerCase();
+      const files = document.querySelectorAll('.file');
+      files.forEach(li => {
+        const text = li.innerText.toLowerCase();
+        li.style.display = text.includes(q) ? 'flex' : 'none';
+      });
+      // hide details if no visible children
+      detailsEls.forEach(d => {
+        const anyVisible = Array.from(d.querySelectorAll('.file')).some(li => li.style.display !== 'none');
+        d.style.display = anyVisible ? '' : 'none';
+      });
+    });
+
+    // On page load keep all details visible only if they contain files
+    window.addEventListener('load', () => {
+      detailsEls.forEach(d => {
+        const files = d.querySelectorAll('.file');
+        d.open = false;
+        if (!files.length) d.style.display = 'none';
+      });
+    });
+  </script>
+</body>
+</html>
+
+
+<!-- 
+      
+      <article class="card">
+        <div class="head">
+          <div class="badge" style="background:var(--accent-1)">DAA</div>
+          <div class="meta">
+            <h3>Design and Analysis of Algorithms</h3>
+            <p>Case studies, labs and theory assignments</p>
+          </div>
+        </div>
+
+        <details>
+          <summary>Assignments (click to expand)</summary>
+          <ul class="files">
+            <li class="file"><span class="tag pdf">PDF</span> <a href="daa-case-study.pdf" target="_blank" rel="noopener noreferrer">daa-case-study.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="daa-lab-manual.pdf" target="_blank" rel="noopener noreferrer">daa-lab-manual.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="daa-miniproject.pdf" target="_blank" rel="noopener noreferrer">daa-miniproject.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="daa-theory-assignment.pdf" target="_blank" rel="noopener noreferrer">daa-theory-assignment.pdf</a></li>
+          </ul>
+        </details>
+      </article>
+
+      <article class="card">
+        <div class="head">
+          <div class="badge" style="background:var(--accent-2)">ML</div>
+          <div class="meta">
+            <h3>Machine Learning</h3>
+            <p>Output files, writeups and mini project</p>
+          </div>
+        </div>
+
+        <details>
+          <summary>Assignments and outputs</summary>
+          <ul class="files">
+            <li class="file"><span class="tag pdf">PDF</span> <a href="ml-miniproject.pdf" target="_blank" rel="noopener noreferrer">ml-miniproject.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="ml-theory-assignment.pdf" target="_blank" rel="noopener noreferrer">ml-theory-assignment.pdf</a></li>
+            
+            <li class="file"><span class="tag pdf">PDF</span> <a href="ml-output-1.pdf" target="_blank" rel="noopener noreferrer">ml-output-1.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="ml-output-2.pdf" target="_blank" rel="noopener noreferrer">ml-output-2.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="ml-output-3.pdf" target="_blank" rel="noopener noreferrer">ml-output-3.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="ml-output-4.pdf" target="_blank" rel="noopener noreferrer">ml-output-4.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="ml-output-5.pdf" target="_blank" rel="noopener noreferrer">ml-output-5.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="ml-output-6.pdf" target="_blank" rel="noopener noreferrer">ml-output-6.pdf</a></li>
+
+            <li class="file"><span class="tag pdf">PDF</span> <a href="ml-writeup-1.pdf" target="_blank" rel="noopener noreferrer">ml-writeup-1.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="ml-writeup-2.pdf" target="_blank" rel="noopener noreferrer">ml-writeup-2.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="ml-writeup-3.pdf" target="_blank" rel="noopener noreferrer">ml-writeup-3.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="ml-writeup-4.pdf" target="_blank" rel="noopener noreferrer">ml-writeup-4.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="ml-writeup-5.pdf" target="_blank" rel="noopener noreferrer">ml-writeup-5.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="ml-writeup-6.pdf" target="_blank" rel="noopener noreferrer">ml-writeup-6.pdf</a></li>
+          </ul>
+        </details>
+      </article>
+
+     
+      <article class="card">
+        <div class="head">
+          <div class="badge" style="background:var(--accent-3)">BCT</div>
+          <div class="meta">
+            <h3>Blockchain Technology</h3>
+            <p>Activity, practicals, theory and writeups</p>
+          </div>
+        </div>
+
+        <details>
+          <summary>Assignments and practicals</summary>
+          <ul class="files">
+            <li class="file"><span class="tag pdf">PDF</span> <a href="bct-activity.pdf" target="_blank" rel="noopener noreferrer">bct-activity.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="bct-miniproject.pdf" target="_blank" rel="noopener noreferrer">bct-miniproject.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="bct-practicals.pdf" target="_blank" rel="noopener noreferrer">bct-practicals.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="bct-theory-assignment.pdf" target="_blank" rel="noopener noreferrer">bct-theory-assignment.pdf</a></li>
+
+            <li class="file"><span class="tag pdf">PDF</span> <a href="bct-writeup-1.pdf" target="_blank" rel="noopener noreferrer">bct-writeup-1.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="bct-writeup-2.pdf" target="_blank" rel="noopener noreferrer">bct-writeup-2.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="bct-writeup-3.pdf" target="_blank" rel="noopener noreferrer">bct-writeup-3.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="bct-writeup-4.pdf" target="_blank" rel="noopener noreferrer">bct-writeup-4.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="bct-writeup-6.pdf" target="_blank" rel="noopener noreferrer">bct-writeup-6.pdf</a></li>
+          </ul>
+        </details>
+      </article>
+
+      
+      <article class="card">
+        <div class="head">
+          <div class="badge" style="background:var(--accent-4)">OOMD</div>
+          <div class="meta">
+            <h3>Object Oriented Modeling and Design</h3>
+            <p>Outputs, writeups and mini project</p>
+          </div>
+        </div>
+
+        <details>
+          <summary>Assignments and outputs</summary>
+          <ul class="files">
+            <li class="file"><span class="tag pdf">PDF</span> <a href="oomd-output-1.pdf" target="_blank" rel="noopener noreferrer">oomd-output-1.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="oomd-output-2.pdf" target="_blank" rel="noopener noreferrer">oomd-output-2.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="oomd-output-3.pdf" target="_blank" rel="noopener noreferrer">oomd-output-3.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="oomd-output-4.pdf" target="_blank" rel="noopener noreferrer">oomd-output-4.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="oomd-output-5.pdf" target="_blank" rel="noopener noreferrer">oomd-output-5.pdf</a></li>
+
+            <li class="file"><span class="tag pdf">PDF</span> <a href="oomd-miniproject.pdf" target="_blank" rel="noopener noreferrer">oomd-miniproject.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="oomd-theory-assignment.pdf" target="_blank" rel="noopener noreferrer">oomd-theory-assignment.pdf</a></li>
+
+            <li class="file"><span class="tag pdf">PDF</span> <a href="oomd-writeup-1.pdf" target="_blank" rel="noopener noreferrer">oomd-writeup-1.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="oomd-writeup-2.pdf" target="_blank" rel="noopener noreferrer">oomd-writeup-2.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="oomd-writeup-3.pdf" target="_blank" rel="noopener noreferrer">oomd-writeup-3.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="oomd-writeup-4.pdf" target="_blank" rel="noopener noreferrer">oomd-writeup-4.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="oomd-writeup-5.pdf" target="_blank" rel="noopener noreferrer">oomd-writeup-5.pdf</a></li>
+          </ul>
+        </details>
+      </article>
+
+      
+      <article class="card">
+        <div class="head">
+          <div class="badge" style="background:var(--accent-5)">STQA</div>
+          <div class="meta">
+            <h3>Software Testing and Quality Assurance</h3>
+            <p>Writeups, outputs and mini project</p>
+          </div>
+        </div>
+
+        <details>
+          <summary>Assignments and outputs</summary>
+          <ul class="files">
+            <li class="file"><span class="tag pdf">PDF</span> <a href="stqa-theory-assignment.pdf" target="_blank" rel="noopener noreferrer">stqa-theory-assignment.pdf</a></li>
+
+            <li class="file"><span class="tag pdf">PDF</span> <a href="stqa-writeup-1.pdf" target="_blank" rel="noopener noreferrer">stqa-writeup-1.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="stqa-writeup-2.pdf" target="_blank" rel="noopener noreferrer">stqa-writeup-2.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="stqa-writeup-3.pdf" target="_blank" rel="noopener noreferrer">stqa-writeup-3.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="stqa-writeup-4.pdf" target="_blank" rel="noopener noreferrer">stqa-writeup-4.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="stqa-writeup-5.pdf" target="_blank" rel="noopener noreferrer">stqa-writeup-5.pdf</a></li>
+
+            <li class="file"><span class="tag pdf">PDF</span> <a href="stqa-miniproject.pdf" target="_blank" rel="noopener noreferrer">stqa-miniproject.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="stqa-output-1.pdf" target="_blank" rel="noopener noreferrer">stqa-output-1.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="stqa-output-2.pdf" target="_blank" rel="noopener noreferrer">stqa-output-2.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="stqa-output-3.pdf" target="_blank" rel="noopener noreferrer">stqa-output-3.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="stqa-output-4.pdf" target="_blank" rel="noopener noreferrer">stqa-output-4.pdf</a></li>
+            <li class="file"><span class="tag pdf">PDF</span> <a href="stqa-output-5.pdf" target="_blank" rel="noopener noreferrer">stqa-output-5.pdf</a></li>
+          </ul>
+        </details>
+      </article>
+-->
